@@ -1,6 +1,7 @@
-# Note Taker Starter Code
+# Express.js Note App
 
 GitHub repository: https://github.com/RubinoD1/Express.js-Note-App
+
 Live Page: 
 
 ## Introduction 
