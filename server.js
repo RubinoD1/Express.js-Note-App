@@ -18,3 +18,11 @@ app.get('/api/notes', (req, res) => {
   res.json(notes);
 });
 
+//route that accepts data to be used or stored server-side
+// post requests represent the action of the client requesting the server to accept data. 
+app.post('/api/notes', (req, res) => {
+  // req.body is where our incoming content will be 
+  console.log(req.body);
+  //The req.body property is where we can access the post request data and do something with it. 
+  res.json(req.body);
+});
