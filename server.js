@@ -43,7 +43,7 @@ app.post('/api/notes', (req, res) => {
 });
 
 
-/* No array function made yet
+/*  No array function made yet*** - CHECK animalsArray in module
 //create new note 
 function createNewNote(body, notesArray) {
   const note = body;
