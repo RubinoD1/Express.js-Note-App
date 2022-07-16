@@ -13,10 +13,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
 /* app.use()
 middleware that mounts a function to the server that the server request pass through 
-before getting to the intended endpoint.
-*/
+before getting to the intended endpoint. */
+
+//middleware that instructs the server to make certain files readily available and to not gate it behind a server endpoint.
+//express.static providees a file path to a location in our app and make these files static resources. 
+app.use(express.static('public'));
+
 // takes incoming POST data and coverts it to key/value pairing that can be accessed in the req.body object.
 //extended: true option set inside the method call informs the server that there may be a sub-array data nested 
 // in it as well, so it needs to look as deep into the POST data as possible to parse all of the data correctly.
