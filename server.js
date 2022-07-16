@@ -7,11 +7,16 @@ const { notes } = require('./data/notes.json');
 
 const app = express();
 
+// '/' route points to the root route of the server. This is the route used to create the homepage for the server.
+app.get('/', (req, res) => {
+  // responds with an HTML page to display in the browser
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
 /* app.use()
 middleware that mounts a function to the server that the server request pass through 
 before getting to the intended endpoint.
 */
-
 // takes incoming POST data and coverts it to key/value pairing that can be accessed in the req.body object.
 //extended: true option set inside the method call informs the server that there may be a sub-array data nested 
 // in it as well, so it needs to look as deep into the POST data as possible to parse all of the data correctly.

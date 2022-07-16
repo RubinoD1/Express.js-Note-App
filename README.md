@@ -24,3 +24,5 @@ Live Page:
 
 --------------
 get homepage button to link to notes.html
+
+http://localhost:3001
