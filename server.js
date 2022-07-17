@@ -5,6 +5,8 @@ const express = require('express');
 //route front-end can request data from
 const { notes } = require('./data/notes.json');
 
+const PORT = process.env.PORT || 3001;
+
 const app = express();
 
 // '/' route points to the root route of the server. This is the route used to create the homepage for the server.
@@ -32,10 +34,11 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
-app.listen(3001, () => {
-    console.log(`API server now on port 3001!`);
-  });
 
+
+app.listen(PORT, () => {
+  console.log(`API server now on port ${PORT}!`);
+});
 
 //route to notes.json 
 /*the .get method requires two arguments
