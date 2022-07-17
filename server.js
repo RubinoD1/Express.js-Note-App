@@ -1,27 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const indexRoutes = require('./routes/apiRoutes/indexRoutes');
+
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
 //process.env.PORT is need by Heroku 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-
-// '/' route points to the root route of the server. This is the route used to create the homepage for the server.
-app.get('/', (req, res) => {
-  // responds with an HTML page to display in the browser
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
-
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
-});
-
-//The * acts as a wildcard, any route that hasn't been defined will fall under this request and will go to the homepage. 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
 
 /* app.use()
 middleware that mounts a function to the server that the server request pass through 
@@ -38,7 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
-
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
@@ -48,24 +36,3 @@ app.listen(PORT, () => {
 
 
 
-
-/*  No array function made yet*** - CHECK animalsArray in module
-//create new note 
-function createNewNote(body, notesArray) {
-  const note = body;
-  notesArray.push(note);
-  //writting to notes.json 
-  //path.join() is used to join the value of __dirname which represents the directory of the file we execute the code in,
-  // with the path to the notes.json file
-   fs.writeFileSync(
-    path.join(__dirname, './data/notes.json'),
-    //we need to save the JS data as JSON, so we use JSON.stringfy() to convert it. 
-    // The null argument means we don't want to edit any of our existing data; if we did, we could pass something in there.
-    // The 2 indicates we want to create white space between our values to make it more readable.
-    JSON.stringify({ notes: notesArray }, null, 2)
-  );
-
-  //return finished code to post route for response
-  return note;
-};
-*/
