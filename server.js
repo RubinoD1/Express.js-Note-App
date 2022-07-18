@@ -2,13 +2,22 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
+//route front-end can request data from
+const { notes } = require('./data/notes.json');
 
-//process.env.PORT is need by Heroku 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+// '/' route points to the root route of the server. This is the route used to create the homepage for the server.
+app.get('/', (req, res) => {
+  // responds with an HTML page to display in the browser
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/notes.html'));
+});
 
 /* app.use()
 middleware that mounts a function to the server that the server request pass through 
@@ -25,14 +34,28 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
+
+
+
+//route to notes.json 
+/*the .get method requires two arguments
+1) a string that describes the route the client will have to fetch from.
+2) a callback function that will execute every time that route is accessed with the GET request. */
+app.get('/api/notes', (req, res) => {
+  //tells client to interpret the data response as JSON data
+  res.json(notes);
+});
+
+//route that accepts data to be used or stored server-side
+// post requests represent the action of the client requesting the server to accept data. 
+app.post('/api/notes', (req, res) => {
+  // req.body is where our incoming content will be 
+  console.log(req.body);
+  //The req.body property is where we can access the post request data and do something with it. 
+  res.json(req.body);
+});
+
 
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
 });
-
-
-
-
-
