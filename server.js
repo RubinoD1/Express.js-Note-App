@@ -4,22 +4,15 @@ const express = require('express');
 const apiRoutes = require('./routes/apiRoutes');
 const htmlRoutes = require('./routes/htmlRoutes');
 
-/*
-//route front-end can request data from
-const { notes } = require('./data/notes.json');
-*/
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-
-
-/* app.use()
-middleware that mounts a function to the server that the server request pass through 
+/* app.use() is middleware that mounts a function to the server that the server requests pass through 
 before getting to the intended endpoint. */
 
-//middleware that instructs the server to make certain files readily available and to not gate it behind a server endpoint.
-//express.static providees a file path to a location in our app and make these files static resources. 
+/*middleware that instructs the server to make certain files readily available and to not gate it behind a server endpoint.
+express.static provides a file path to a location makes these files static resources. */ 
 app.use(express.static('public'));
 
 // takes incoming POST data and coverts it to key/value pairing that can be accessed in the req.body object.
@@ -43,40 +36,3 @@ app.listen(PORT, () => {
 
 
 
-/*
-// '/' route points to the root route of the server. This is the route used to create the homepage for the server.
-app.get('/', (req, res) => {
-  // responds with an HTML page to display in the browser
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
-
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
-});
-
-//route to notes.json 
-//the .get method requires two arguments
-1) a string that describes the route the client will have to fetch from.
-2) a callback function that will execute every time that route is accessed with the GET request. 
-app.get('/api/notes', (req, res) => {
-  //tells client to interpret the data response as JSON data
-  res.json(notes);
-});
-
-//route that accepts data to be used or stored server-side
-// post requests represent the action of the client requesting the server to accept data. 
-app.post('/api/notes', (req, res) => {
-  // req.body is where our incoming content will be 
-  notes.push(req.body);
-  res.json(true);
-});
-
-app.delete("/api/notes/", function(req,res) {
-  notes.length = 0;
-
-  res.json({ok: true});
-})
-
-
-
-*/
