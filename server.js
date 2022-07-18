@@ -50,14 +50,14 @@ app.get('/api/notes', (req, res) => {
 // post requests represent the action of the client requesting the server to accept data. 
 app.post('/api/notes', (req, res) => {
   // req.body is where our incoming content will be 
-  notes.push(req.body);
-  res.json(true);
+  req.body.id = notes.length.toString();
+  let note = createNewNote(req.body, notes);
+  res.json(note);
 });
 
-app.delete("/api/notes/", function(req,res) {
-  notes.length = 0;
-
-  res.json({ok: true});
+app.delete("/api/notes/:id", function(req,res) {
+  deleteNote(notes, req.params.id);
+  res.json(notes);
 })
 
 
