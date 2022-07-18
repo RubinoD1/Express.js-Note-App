@@ -42,9 +42,9 @@ app.use(express.json());
 1) a string that describes the route the client will have to fetch from.
 2) a callback function that will execute every time that route is accessed with the GET request. */
 app.get('/api/notes', (req, res) => {
-  
+  notes = JSON.parse(fs.readFileSync('/api/notes', 'utf-8'))
   //tells client to interpret the data response as JSON data
-  res.json(results);
+  res.json(notes);
 });
 
 //route that accepts data to be used or stored server-side
