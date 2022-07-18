@@ -50,10 +50,15 @@ app.get('/api/notes', (req, res) => {
 // post requests represent the action of the client requesting the server to accept data. 
 app.post('/api/notes', (req, res) => {
   // req.body is where our incoming content will be 
-  console.log(req.body);
-  //The req.body property is where we can access the post request data and do something with it. 
-  res.json(req.body);
+  notes.push(req.body);
+  res.json(true);
 });
+
+app.delete("/api/notes/", function(req,res) {
+  notes.length = 0;
+
+  res.json({ok: true});
+})
 
 
 app.listen(PORT, () => {
