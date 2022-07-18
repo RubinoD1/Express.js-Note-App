@@ -1,23 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
+/*
 //route front-end can request data from
 const { notes } = require('./data/notes.json');
-
+*/
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-// '/' route points to the root route of the server. This is the route used to create the homepage for the server.
-app.get('/', (req, res) => {
-  // responds with an HTML page to display in the browser
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
 
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
-});
 
 /* app.use()
 middleware that mounts a function to the server that the server request pass through 
@@ -34,67 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
-
-
-
-//route to notes.json 
-/*the .get method requires two arguments
-1) a string that describes the route the client will have to fetch from.
-2) a callback function that will execute every time that route is accessed with the GET request. */
-app.get('/api/notes', (req, res) => {
-  notes = JSON.parse(fs.readFileSync('/api/notes', 'utf-8'))
-  //tells client to interpret the data response as JSON data
-  res.json(notes);
-});
-
-app.get('/api/notes', (req, res) => {
-  notes = JSON.parse(fs.readFileSync('./data/notes.json', 'utf-8'))
-
-  res.json(notes);
-
-});
-
-app.post('/api/notes', (req, res) => {
-  let newNote = { // most basic form of a model
-    id: Math.floor(Math.random() * 1000),
-    title: req.body.title,
-    text: req.body.text
-  }
-
-  // most basic form of a controller
-  notes.push(newNote);
-  fs.writeFileSync('./data/notes.json', JSON.stringify(notes), (err, res) => {
-    if(err) throw err;
-  });
-
-  res.json(notes);
-
-})
-
-app.delete('/api/notes:id', (req, res) => {
-  let notes = require('./data/notes.json');
-  
-  let notesToKeep = [];
-
-  for(let i = 0; i < notes.length; i++) {
-    console.log(req.params.id)
-    console.log(notes[i].id)
-
-    if (parseInt(notes[i].id) !== parseInt(req.params.id)) {
-      notesToKeep.push(notes[i]);
-    }
-  }
-
-  console.log(notesToKeep);
-
-  notes = notesToKeep;
-  fs.writeFileSync('/api/notes', JSON.stringify(notes), (err, res) => {
-    if(err) throw err;
-  });
-
-  res.json(notes);
-
-});
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 
 app.listen(PORT, () => {
@@ -103,4 +39,44 @@ app.listen(PORT, () => {
 
 
 
-//    '/api/notes'
+
+
+
+
+/*
+// '/' route points to the root route of the server. This is the route used to create the homepage for the server.
+app.get('/', (req, res) => {
+  // responds with an HTML page to display in the browser
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
+//route to notes.json 
+//the .get method requires two arguments
+1) a string that describes the route the client will have to fetch from.
+2) a callback function that will execute every time that route is accessed with the GET request. 
+app.get('/api/notes', (req, res) => {
+  //tells client to interpret the data response as JSON data
+  res.json(notes);
+});
+
+//route that accepts data to be used or stored server-side
+// post requests represent the action of the client requesting the server to accept data. 
+app.post('/api/notes', (req, res) => {
+  // req.body is where our incoming content will be 
+  notes.push(req.body);
+  res.json(true);
+});
+
+app.delete("/api/notes/", function(req,res) {
+  notes.length = 0;
+
+  res.json({ok: true});
+})
+
+
+
+*/
