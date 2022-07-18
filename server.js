@@ -47,16 +47,47 @@ app.get('/api/notes', (req, res) => {
   res.json(notes);
 });
 
-//route that accepts data to be used or stored server-side
-// post requests represent the action of the client requesting the server to accept data. 
+app.get('/api/notes', (req, res) => {
+  notes = JSON.parse(fs.readFileSync('./data/notes.json', 'utf-8'))
+
+  res.json(notes);
+
+});
+
 app.post('/api/notes', (req, res) => {
-  // req.body is where our incoming content will be 
-  let newNote = { 
+  let newNote = { // most basic form of a model
     id: Math.floor(Math.random() * 1000),
     title: req.body.title,
     text: req.body.text
   }
+
+  // most basic form of a controller
   notes.push(newNote);
+  fs.writeFileSync('./data/notes.json', JSON.stringify(notes), (err, res) => {
+    if(err) throw err;
+  });
+
+  res.json(notes);
+
+})
+
+app.delete('/api/notes:id', (req, res) => {
+  let notes = require('./data/notes.json');
+  
+  let notesToKeep = [];
+
+  for(let i = 0; i < notes.length; i++) {
+    console.log(req.params.id)
+    console.log(notes[i].id)
+
+    if (parseInt(notes[i].id) !== parseInt(req.params.id)) {
+      notesToKeep.push(notes[i]);
+    }
+  }
+
+  console.log(notesToKeep);
+
+  notes = notesToKeep;
   fs.writeFileSync('/api/notes', JSON.stringify(notes), (err, res) => {
     if(err) throw err;
   });
@@ -65,12 +96,11 @@ app.post('/api/notes', (req, res) => {
 
 });
 
-app.delete("/api/notes/:id", function(req,res) {
-  deleteNote(notes, req.params.id);
-  res.json(notes);
-})
-
 
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
 });
+
+
+
+//    '/api/notes'
