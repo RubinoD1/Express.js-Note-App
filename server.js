@@ -42,17 +42,27 @@ app.use(express.json());
 1) a string that describes the route the client will have to fetch from.
 2) a callback function that will execute every time that route is accessed with the GET request. */
 app.get('/api/notes', (req, res) => {
+  
   //tells client to interpret the data response as JSON data
-  res.json(notes);
+  res.json(results);
 });
 
 //route that accepts data to be used or stored server-side
 // post requests represent the action of the client requesting the server to accept data. 
 app.post('/api/notes', (req, res) => {
   // req.body is where our incoming content will be 
-  req.body.id = notes.length.toString();
-  let note = createNewNote(req.body, notes);
-  res.json(note);
+  let newNote = { 
+    id: Math.floor(Math.random() * 1000),
+    title: req.body.title,
+    text: req.body.text
+  }
+  notes.push(newNote);
+  fs.writeFileSync('/api/notes', JSON.stringify(notes), (err, res) => {
+    if(err) throw err;
+  });
+
+  res.json(notes);
+
 });
 
 app.delete("/api/notes/:id", function(req,res) {
